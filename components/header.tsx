@@ -34,7 +34,7 @@ import {
 import { categories } from "@/lib/dummy-data";
 import { useAuth } from "@/contexts/auth-context";
 import { useCart } from "@/contexts/cart-context";
-import { logoutAction } from "@/lib/auth";
+import { logoutUser } from "@/lib/auth";
 
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -44,7 +44,7 @@ export function Header() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await logoutAction();
+    await logoutUser();
     setUser(null);
   };
 

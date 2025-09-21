@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { registerAction } from "@/lib/auth"
+import { registerUser, User } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
 
 export function RegisterForm() {
@@ -25,11 +25,13 @@ export function RegisterForm() {
     setIsLoading(true)
     setError("")
 
-    const result = await registerAction({ name, email, password })
+    const result = await registerUser({ name, email, password }) as unknown as
+      | { error: string }
+      | { success: true; user: User }
 
-    if (result?.error) {
+    if ("error" in result) {
       setError(result.error)
-    } else if (result?.success && result.user) {
+    } else if ("success" in result && result.success && "user" in result) {
       setUser(result.user)
       router.push("/")
       router.refresh()
